@@ -6,9 +6,12 @@
 #include <string>
 #include <unordered_map>
 
+class RenderableCollection;
+
 class Engine {
     SDL_Event event;
     public:
+    RenderableCollection sprites;
     SDL_Window* window;
     SDL_Renderer* renderer;
     bool running = true;
@@ -19,6 +22,7 @@ class Engine {
 };
 
 class Renderable {
+    friend class Engine;
     protected:
     void GenerateID();
     std::string id;

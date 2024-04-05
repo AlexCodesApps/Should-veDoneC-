@@ -9,7 +9,9 @@ Engine::Engine(const char* title, int width, int height) {
 void Engine::Draw() {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderClear(renderer);
-    // Draw stuff
+    for (auto& renderable : sprites.renderables) {
+        renderable.second->Draw();
+    }
     SDL_RenderPresent(renderer);
 }
 

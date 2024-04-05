@@ -1,6 +1,6 @@
 #include "engine.hpp"
 #include "collections.hpp"
-#define New_Renderable(T, C) std::make_shared<RenderablePointer<T>>(C)
+#define New_Renderable(T, C) RenderablePointer<T>(C)
 
 class Foo : public Renderable {
     void Draw() override {
@@ -11,10 +11,7 @@ class Foo : public Renderable {
 int main() {
     SDL_Init(SDL_INIT_EVERYTHING);
     Engine engine;
-    std::shared_ptr<RenderableCollection> collection = std::make_shared<RenderableCollection>();
-    collection->NewRenderable(std::make_shared<Foo>());
-    std::shared_ptr<RenderablePointer<Foo>> foo = New_Renderable(Foo, collection);
-    std::cout<<"ID: " << foo->GetID() << std::endl;
+    engine.sprites.NewRenderable(std::make_shared<Foo>());
     while (engine.running) {
         engine.Input();
         engine.Draw();
