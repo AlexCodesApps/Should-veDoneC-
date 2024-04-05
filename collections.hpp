@@ -2,40 +2,29 @@
 #include <memory>
 #include "engine.hpp"
 
-class RenderableCollection {
-    friend class Renderable;
-    friend class Engine;
-    protected:
-        std::unordered_map<std::string, std::shared_ptr<Renderable>> renderables;
-    public:
-        std::shared_ptr<Renderable> Get(std::string id);
-        void NewRenderable(std::shared_ptr<Renderable> renderable);
-        void RemoveRenderable(std::string id);
-};
-
 template <typename T>
 class RenderablePointer {
-    std::shared_ptr<RenderableCollection> collection;
+    RenderableCollection *collection;
     std::string identifier;
     public:
-    RenderablePointer(std::shared_ptr<RenderableCollection>);
-    RenderablePointer(std::string, std::shared_ptr<RenderableCollection>);
+    RenderablePointer(RenderableCollection *collection);
+    RenderablePointer(std::string id, RenderableCollection *collection);
     std::shared_ptr<T> Get();
     std::string GetID();
 };
 
 template <typename T>
-RenderablePointer<T>::RenderablePointer(std::shared_ptr<RenderableCollection> collection) {
-    this->collection = collection;
+RenderablePointer<T>::RenderablePointer(RenderableCollection *collection_p) {
+    this->collection = collection_p;
     std::shared_ptr<T> temp = std::make_shared<T>();
     this->identifier = temp->GetID();
-    this->collection->NewRenderable(temp);
+    this->collection->AddRenderable(temp);
 }
 
 template <typename T>
-RenderablePointer<T>::RenderablePointer(std::string id, std::shared_ptr<RenderableCollection> collection) {
+RenderablePointer<T>::RenderablePointer(std::string id, RenderableCollection *collection_p) {
     this->identifier = id;
-    this->collection = collection;
+    this->collection = collection_p;
 }
 
 template <typename T>
