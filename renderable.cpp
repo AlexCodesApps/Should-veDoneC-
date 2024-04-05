@@ -1,6 +1,6 @@
 #include "renderable.hpp"
 
-Renderable::Renderable() {
+Renderable::Renderable(Engine &engine_p) : engine(&engine_p) {
     GenerateID();
 }
 

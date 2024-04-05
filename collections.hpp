@@ -8,11 +8,14 @@
 template <typename T>
 requires std::derived_from<T, Renderable>
 class RenderablePointer {
+    Engine *engine = nullptr;
     RenderableCollection *collection;
     std::string identifier;
     public:
+    RenderablePointer(Engine &engine_p);
     RenderablePointer(RenderableCollection &collection_p);
     RenderablePointer(std::string id, RenderableCollection &collection_p);
+    RenderablePointer(std::string id, Engine &engine_p);
     template <typename... Args>
     RenderablePointer(RenderableCollection &collection_p, Args &&... args) { // Couldn't Do Outside Class
         collection = &collection_p;

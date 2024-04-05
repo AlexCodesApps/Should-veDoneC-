@@ -8,11 +8,13 @@
 class Renderable {
     friend class Engine;
     protected:
+    Engine* engine;
     void GenerateID();
     std::string id;
     virtual void Draw() = 0;
     public:
-    Renderable();
+    SDL_FRect DisplayRect = {0, 0, 0, 0};
+    Renderable(Engine&);
     virtual ~Renderable() = default;
     SDL_FRect body;
     std::string GetID() const;
