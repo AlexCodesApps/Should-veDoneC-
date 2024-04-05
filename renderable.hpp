@@ -27,6 +27,15 @@ class RenderableCollection {
         std::unordered_map<std::string, std::shared_ptr<Renderable>> renderables;
     public:
         std::shared_ptr<Renderable> Get(std::string id);
-        void AddRenderable(std::shared_ptr<Renderable> renderable);
+        template <typename T>
+        requires std::derived_from<T, Renderable>
+        std::shared_ptr<T> AddRenderable(std::shared_ptr<T> renderable);
         void RemoveRenderable(std::string id);
 };
+
+template <typename T>
+requires std::derived_from<T, Renderable>
+std::shared_ptr<T> RenderableCollection::AddRenderable(std::shared_ptr<T> renderable) {
+    renderables[renderable->GetID()] = renderable;
+    return std::dynamic_pointer_cast<T>(renderable);
+}
